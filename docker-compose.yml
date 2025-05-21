@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: planifica-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - node_modules:/var/www/node_modules
+    networks:
+      - laravel-network
+    depends_on:
+    - db
+
+  webserver:
+    image: nginx:alpine
+    container_name: nginx-server
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - laravel-network
+    depends_on:
+      - app
+
+  db:
+    image: mariadb:10.11
+    container_name: mariadb-server
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
+      MYSQL_USER: ${DB_USERNAME:-username}
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - laravel-network
+
+  composer:
+    image: composer:2
+    container_name: composer
+    volumes:
+      - ./:/var/www
+    working_dir: /var/www
+    user: "1000:1000"
+    depends_on:
+      - app
+
+  npm:
+    image: node:18
+    container_name: npm
+    volumes:
+      - ./:/var/www
+      - node_modules:/var/www/node_modules
+    working_dir: /var/www
+    user: "1000:1000"
+    entrypoint: ['npm']
+
+networks:
+  laravel-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
+  node_modules:
