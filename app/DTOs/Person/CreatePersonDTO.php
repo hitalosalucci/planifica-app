@@ -34,10 +34,10 @@ class CreatePersonDTO extends BaseDTO
         return [
             'name' => 'required|string|max:255',
             'cpf' => 'required|string|size:11',
-            'birth_date' => 'nullable|date',
-            'phone' => 'nullable|string|max:14',
-            'email' => 'nullable|email|max:255',
-            'gender' => 'nullable|in:male,female,non_binary,other,prefer_not_say'
+            'birth_date' => 'sometimes|nullable|date',
+            'phone' => 'sometimes|nullable|string|max:14',
+            'email' => 'sometimes|nullable|email|max:255',
+            'gender' => 'sometimes|nullable|in:male,female,non_binary,other,prefer_not_say'
         ];
     }
 
