@@ -2,7 +2,7 @@
 
 namespace App\Models\EventPersonStage;
 
-use App\Enums\RoomStatusEnum;
+use App\Enums\StatusEnum;
 use App\Models\EventPerson\EventPersonModel;
 use App\Models\CoffeeRoom\CoffeeRoomModel;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -12,7 +12,7 @@ class EventPersonStage extends Pivot
     protected $table = 'event_people_stages';
 
     protected $casts = [
-        'status' => RoomStatusEnum::class
+        'status' => StatusEnum::class
     ];
 
     public function eventPerson()
