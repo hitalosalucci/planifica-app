@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs\Event;
+namespace App\DTOs\EventPerson;
 
 use App\DTOs\BaseDTO;
 
