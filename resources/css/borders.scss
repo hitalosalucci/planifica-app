@@ -1,0 +1,27 @@
+.brand-border-1px-solid-gray-100 {
+  border: 1px solid $color-gray-100;
+}
+
+.brand-border-1-solid-default {
+  border: 1px solid $color-gray-200;
+}
+
+.brand-border-1-solid-gray-300 {
+  border: 1px solid $color-gray-300;
+}
+
+.brand-border-1-solid-success {
+  border: 1px solid $positive;
+}
+
+.brand-border-2-solid-success {
+  border: 2px solid $positive;
+}
+
+.brand-border-dashed {
+  border: 1.4px dashed $color-gray-500;
+}
+
+.brand-border-bottom-1-solid-default {
+  border-bottom: 1px solid $color-gray-200;
+}

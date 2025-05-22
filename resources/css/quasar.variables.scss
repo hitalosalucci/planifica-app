@@ -1,15 +1,33 @@
 // Cores primárias
-$primary : #181818;
-$secondary : #5C5CFF;
-$accent : #E72B4B;
-$accent-lighter: #FDF0F2;
+$primary : #30345E;
+$primary-light : #dce2e979;
+$secondary : #FCEC41;
+$secondary-light : #fffbd3;
+$accent : #F65236;
+$accent-light: #f8cec6;
 
 // Cores de feedback
-$positive  : #227c43;
-$negative  : #d64646;
-$info      : #487cd1;
-$warning   : #e6ac1c;
+$positive  : #02e37f;
+$positive-light  : #a4ffd6;
+$negative  : #f05256;
+$negative-light  : #f59ea1;
+$info      : #68adf9;
+$info-light      : #aed4fc;
+$warning   : #ffcb60;
+$warning-light   : #f5dba7;
 
 // Cores de texto
 $dark      : #1D1D1D;
 $light     :#f3f3f3;
+
+$disabled : #b8bdc4;
+
+$color-gray-900: #4e4e50;
+$color-gray-800: #61615f;
+$color-gray-700: #73746b;
+$color-gray-600: #888c94;
+$color-gray-500: #9c9ead;
+$color-gray-400: #b8bdc4;
+$color-gray-300: #cacad5;
+$color-gray-200: #e1e1e8;
+$color-gray-100: #f8f8fa;

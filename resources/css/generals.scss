@@ -1,0 +1,24 @@
+.brand-full-view-height {
+  height: 100vh;
+}
+
+.brand-full-height {
+  height: 100%;
+}
+
+.brand-full-width {
+  width: 100%;
+}
+
+// hover general
+.brand-hover {
+  &:hover {
+    transition: 0.3s;
+    filter: brightness(130%) !important;
+  }
+}
+
+//rounded general
+.brand-rounded {
+  border-radius: 16px !important;
+}

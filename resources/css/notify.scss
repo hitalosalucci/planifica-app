@@ -1,0 +1,9 @@
+.bg-success-notify {
+  @extend .brand-bg-success-light;
+  border-radius: 8px;
+
+  .q-notification__message {
+    @extend .brand-text-success;
+    font-weight: 500 !important;
+  }
+}

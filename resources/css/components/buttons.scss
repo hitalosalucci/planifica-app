@@ -1,0 +1,39 @@
+.brand-standard-button {
+  &:before {
+    box-shadow: none !important;
+  }
+
+  font-weight: bold !important;
+
+  padding: 8px 24px !important;
+
+  //o padrão hover do btn do Quasar já vem com efeito hover
+  // @extend .brand-hover;
+}
+
+.brand-button-primary {
+  @extend .brand-standard-button;
+  @extend .brand-bg-primary;
+  @extend .brand-text-light;
+}
+
+.brand-button-secondary {
+  @extend .brand-standard-button;
+  @extend .brand-bg-secondary;
+  @extend .brand-text-dark;
+}
+
+.hidden-visibility {
+  visibility: hidden;
+}
+
+.brand-button-disabled {
+  @extend .brand-standard-button;
+  @extend .brand-bg-disabled;
+  @extend .brand-text-disabled;
+  border: 1px solid $color-gray-200;
+}
+
+.brand-button-dropdown {
+  @extend .brand-standard-button;
+}

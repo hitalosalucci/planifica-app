@@ -1,0 +1,15 @@
+@import './generals.scss';
+@import './colors.scss';
+@import './text.scss';
+@import './spacing.scss';
+@import './typography.scss';
+@import './borders.scss';
+@import './borderRadius.scss';
+@import './notify.scss';
+
+//components
+@import './components/buttons.scss';
+@import './components/inputs.scss';
+
+//pages
+@import './pages/auth/login.scss';

@@ -1,0 +1,27 @@
+.brand-image-container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.brand-image-background-auth {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
+}
+
+.brand-form-container {
+  width: 80%;
+  max-width: 400px;
+}
+
+.brand-position-helper-center {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
+
+.brand-form-container {
+  width: 100%;
+  max-width: 502px;
+}

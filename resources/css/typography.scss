@@ -1,0 +1,68 @@
+// Definição de parâmetros das fontes
+$brand-font-sizes: (
+  heading-xl: 36px,
+  heading-l: 28px,
+  heading-m: 24px,
+  heading-s: 20px,
+  heading-xs: 16px,
+  text-xl: 20px,
+  text-l: 16px,
+  text-m: 14px,
+  text-s: 12px,
+  overline: 10px,
+);
+
+$brand-line-heights: (
+  heading-xl: 150%,
+  heading-l: 130%,
+  heading-m: 150%,
+  heading-s: 150%,
+  heading-xs: 150%,
+  text-xl: 150%,
+  text-l: 150%,
+  text-m: 150%,
+  text-s: 150%,
+  overline: 150%,
+);
+
+$brand-font-weights: (
+  regular: 400,
+  bold: 700,
+  lighter: 100,
+);
+
+// Heading
+@each $size, $value in (xl, l, m, s, xs) {
+  // Heading - XL - L - M - S - SM
+  @each $weight, $weight-value in $brand-font-weights {
+    // Heading - Regular e bolder
+    .brand-heading-#{$size}-#{$weight} {
+      font-size: map-get($brand-font-sizes, heading-#{$size});
+      line-height: map-get($brand-line-heights, heading-#{$size});
+      font-weight: $weight-value;
+    }
+  }
+}
+
+// Text
+@each $size in (xl, l, m, s) {
+  // Text - XL - L - M - S - SM
+  @each $weight, $weight-value in $brand-font-weights {
+    // Text - Regular e bolder
+    .brand-text-#{$size}-#{$weight} {
+      font-size: map-get($brand-font-sizes, text-#{$size});
+      line-height: map-get($brand-line-heights, text-#{$size});
+      font-weight: $weight-value;
+    }
+  }
+}
+
+// Overline
+@each $weight, $weight-value in $brand-font-weights {
+  // Overline - Regular e bolder
+  .brand-overline-#{$weight} {
+    font-size: map-get($brand-font-sizes, overline);
+    line-height: map-get($brand-line-heights, overline);
+    font-weight: $weight-value;
+  }
+}
