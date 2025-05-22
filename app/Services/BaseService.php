@@ -3,22 +3,26 @@
 namespace App\Services;
 
 use App\DTOs\BaseDTO;
-use App\Models\BaseModel;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @template TModel of Model
+ * @template TDTO of BaseDTO
+ */
 abstract class BaseService
 {
     /**
-     * @var BaseRepository
+     * @var BaseRepository<TModel>
      */
-    protected $repository;
+    protected BaseRepository $repository;
 
     /**
      * BaseService constructor
      *
-     * @param BaseRepository $repository
+     * @param BaseRepository<TModel> $repository
      */
     public function __construct(BaseRepository $repository)
     {
@@ -29,11 +33,12 @@ abstract class BaseService
      * coletar todos os dados
      *
      * @param array $columns
-     * @return Collection
+     * @param array $relations
+     * @return Collection<int, TModel>
      */
-    public function getAll(array $columns = ['*']): Collection
+    public function getAll(array $columns = ['*'], array $relations = []): Collection
     {
-        return $this->repository->all($columns);
+        return $this->repository->getAll($columns, $relations);
     }
 
     /**
@@ -41,11 +46,26 @@ abstract class BaseService
      *
      * @param int $perPage
      * @param array $columns
-     * @return Collection
+    *  @return array
      */
-    public function getPaginated(int $perPage = 15, array $columns = ['*']): Collection
+    public function getAllPaginated(int $perPage = 15, int $page = 1, array $columns = ['*'], string $orderBy = 'id', string $orderDirection = 'asc', array $relations = []): array
     {
-        return $this->repository->paginate($perPage, $columns);
+      $paginated = $this->repository->getAllPaginated(
+          $perPage,
+          $page,
+          $columns,
+          $orderBy,
+          $orderDirection,
+          $relations
+      );
+
+      return [
+        "data" => $paginated->items(),
+        "current_page" => $paginated->currentPage(),
+        "per_page" => $paginated->perPage(),
+        "total" => $paginated->total(),
+        "last_page" => $paginated->lastPage(),
+      ];
     }
 
     /**
@@ -53,33 +73,62 @@ abstract class BaseService
      *
      * @param int $id
      * @param array $columns
-     * @return BaseModel|null
+     * @return TModel|null
      */
-    public function getById(int $id, array $columns = ['*']): ?BaseModel
+    public function getById(int $id, array $columns = ['*'], array $relations = [], array $appends = []): ?Model
     {
-        return $this->repository->find($id, $columns);
+      return $this->repository->getById(
+          $id,
+          $columns,
+          $relations,
+          $appends
+      );
     }
+
+    /**
+     * Retornar um dado passando a coluna
+     *
+     * @param int $id
+     * @param array $columns
+     * @return TModel|null
+     */
+    public function getByField(int $id, array $columns = ['*'], array $relations = [], array $appends = []): ?Model
+    {
+      return $this->repository->getByField(
+          $id,
+          $columns,
+          $relations,
+          $appends
+      );
+    }
+
 
     /**
      * Create a new record
      *
-     * @param BaseDTO $dto
-     * @return BaseModel
+     * @param TDTO $dto
+     * @return TModel
      */
-    public function create(BaseDTO $dto): BaseModel
+    public function create(BaseDTO $dto): Model
     {
-        return $this->repository->create($dto->toArray());
+      //validação no DTO, caso inválido com o DTo não avançará e criará o registro inválido
+      $dto->validate();
+
+      return $this->repository->create($dto->toArray());
     }
 
     /**
      * Atualizar dado
      *
      * @param int $id
-     * @param BaseDTO $dto
-     * @return BaseModel
+     * @param TDTO $dto
+     * @return TModel
      */
-    public function update(int $id, BaseDTO $dto): BaseModel
+    public function update(int $id, BaseDTO $dto): Model
     {
+        //validação no DTO, caso inválido com o DTo não avançará e atualizará o registro inválido
+        $dto->validate();
+
         return $this->repository->update($id, $dto->toArray());
     }
 

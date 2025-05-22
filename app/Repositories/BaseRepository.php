@@ -2,64 +2,54 @@
 
 namespace App\Repositories;
 
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 
+/**
+ * @template TModel of Model
+ */
 abstract class BaseRepository
 {
     /**
-     * @var BaseModel
+     * @var TModel
      */
     protected $model;
 
     /**
+     * @param Model $model
      * BaseRepository constructor.
      */
-    public function __construct()
+    public function __construct(Model $model)
     {
-        $this->makeModel();
-    }
-
-    /**
-     * obter classe modelo
-     *
-     * @return string
-     */
-    abstract public function model(): string;
-
-    /**
-     * Criar instância da classe de Modelo
-     *
-     * @return void
-     */
-    public function makeModel(): void
-    {
-        $model = app($this->model());
         $this->model = $model;
     }
 
     /**
-     * coletar todos os dados
-     *
+     * Retornar todos os dados
+     * 
      * @param array $columns
-     * @return Collection
+     * @param array $relations
+     * @return Collection<int, TModel>
      */
-    public function getAll(array $columns = ['*']): Collection
+    public function getAll(array $columns = ['*'], array $relations = []): Collection
     {
-        return $this->model->all($columns);
+      return $this->model->with($relations)->get($columns);
     }
 
     /**
-     * Coletar dados com paginação
-     *
-     * @param int $perPage
-     * @param array $columns
-     * @return Collection
+     * @return LengthAwarePaginator<TModel>
      */
-    public function getPaginated(int $perPage = 15, array $columns = ['*']): Collection
+    public function getAllPaginated(int $perPage = 15, int $page = 1, array $columns = ['*'], string $orderBy = 'id', string $orderDirection = 'asc', array $relations = []): LengthAwarePaginator
     {
-        return $this->model->paginate($perPage, $columns);
+
+      Paginator::currentPageResolver(fn() => $page);
+
+      return $this->model
+        ->with($relations)
+        ->orderBy($orderBy, $orderDirection)
+        ->paginate($perPage, $columns);
     }
 
     /**
@@ -67,11 +57,16 @@ abstract class BaseRepository
      *
      * @param int $id
      * @param array $columns
-     * @return BaseModel|null
+     * @return TModel|null
      */
-    public function getById(int $id, array $columns = ['*']): ?BaseModel
+    public function getById(int $id, array $columns = ['*'], array $relations = [], array $appends = []): ?Model
     {
-        return $this->model->find($id, $columns);
+      $model = $this->model
+        ->with($relations)
+        ->select($columns)
+        ->find($id);
+
+      return $model?->append($appends);
     }
 
     /**
@@ -80,35 +75,42 @@ abstract class BaseRepository
      * @param string $field
      * @param mixed $value
      * @param array $columns
-     * @return BaseModel|null
+     * @return TModel|null
      */
-    public function getByField(string $field, mixed $value, array $columns = ['*']): ?BaseModel
+    public function getByField(string $field, mixed $value, array $columns = ['*'], array $relations = [], array $appends = []): ?Model
     {
-        return $this->model->where($field, $value)->first($columns);
+        $model = $this->model
+          ->with($relations)
+          ->where($field, $value)
+          ->select($columns)
+          ->first();
+
+        return $model?->append($appends);
     }
 
     /**
      * Criar um dado
      *
-     * @param array $data
-     * @return BaseModel
+     * @param array<string, mixed> $data
+     * @return TModel
      */
-    public function create(array $data): BaseModel
+    public function create(array $data): Model
     {
-        return $this->model->create($data);
+      return $this->model->create($data);
     }
 
     /**
      * Atualizar um dado
      *
      * @param int $id
-     * @param array $data
-     * @return BaseModel
+     *  @param array<string, mixed> $data
+     * @return TModel
      */
-    public function update(int $id, array $data): BaseModel
+    public function update(int $id, array $data): Model
     {
-        $record = $this->find($id);
+        $record = $this->getById($id);
         $record->update($data);
+
         return $record;
     }
 
