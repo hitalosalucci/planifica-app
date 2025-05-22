@@ -1,9 +1,13 @@
 Planifica App - Gestão organizada de evento
 
 ### Passo a passo
--Criar arquivo .env com base no .env.exemple
+-Criar arquivo .env com base no .env.example
 
-~ cp .env.exemple .env 
+~ cp .env.example .env 
+
+-Criar arquivo .env.testing com base no .env.testing.example - Contém as variáveis de ambiente para rodar os testes de integração
+
+~ cp .env.example .env.testing
 
 ### Defina as variáveis ambiente de acordo com seu ambiente
 -----
@@ -24,6 +28,8 @@ Planifica App - Gestão organizada de evento
 ~ docker-compose exec app php artisan key:generate #Caso não tenha gerado a key anteriormente
 ~ docker-compose exec app php artisan migrate #Para rodar as migrações do banco de dados
 
+~ docker-compose exec app php artisan key:generate --env=testing #Para criar a key no .env.testing
+
 <!-- ### Configure o ambiente laravel
 
 ~ docker-compose run --rm artisan key:generate
@@ -36,6 +42,9 @@ Planifica App - Gestão organizada de evento
 
 ### Iniciar os servidores de desenvolvimento
 ~ npm run dev
+
+### Para rodar os testes de integração
+~ php artisan test
 
 ### Para monitorar os logs dos serviços docker, utilize os comandos abaixo
 
@@ -83,6 +92,8 @@ Contém:
 -O comportamento não é SPA puro, o Laravel continua sendo um backend MVC tradicional e as views Blade irão carregar componentes Vue compilados e as Rotas para API REST que fazemos no "frontend" da aplicação funcionaria normalmente.
 
 ### Sugestão de melhorias futuras
+
+-Utilização de JWT Token para Autenticação, no projeto foi utilizado um Personal Access Token utilizando o Laravel Sanctum, ela não tem dados embutidos no token, somente um token de acesso para autenticação básica
 
 -Implementação de Interfaces para a estrutura com o Pattern de Repository e Services.
 
