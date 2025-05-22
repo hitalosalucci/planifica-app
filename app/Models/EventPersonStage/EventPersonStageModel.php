@@ -7,7 +7,7 @@ use App\Models\EventPerson\EventPersonModel;
 use App\Models\CoffeeRoom\CoffeeRoomModel;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class EventPersonStage extends Pivot
+class EventPersonStageModel extends Pivot
 {
     protected $table = 'event_people_stages';
 
