@@ -7,7 +7,7 @@ export const brandData = ref({
   domainUrl: windowLocation(),
   imageLogoHorizontalDark: '/images/brand/planifica-logotipo-dark.png',
   imageLogoHorizontalLight: '/images/brand/planifica-logotipo-light.png',
-  imageIconogram: 'images/brand/planifica-logotipo-light.png',
+  imageIconogram: 'images/brand/planifica-icon.svg',
   imageBannerLogin: '/images/pages/auth/banner-login.png',
 });
 
