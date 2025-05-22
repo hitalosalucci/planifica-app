@@ -3,10 +3,10 @@
     <q-btn unelevated :ripple="false" class="brand-standard-button" :class="[buttonClass,
       { 'brand-button-disabled': disabled },
       { 'brand-rounded': rounded },
-    ]" no-caps :round="round" :disabled="disabled">
+    ]" no-caps :round="round" :disabled="disabled || loading" >
       <div class="flex no-wrap items-center relative-position"
         :class="[{ 'hidden-visibility': loading }, contentClass]">
-        <q-icon v-if="leftIcon" :name="leftIcon" :size="leftSizeIcon" />
+        <q-icon v-if="leftIcon" :name="leftIcon" :size="leftSizeIcon" class="q-mr-xs" />
         <span v-if="label" class="q-ma-none" :class="labelContainerClass">
           {{ label }}
         </span>
