@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('capacity');
             $table->text('description')->nullable();
 
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['available', 'unavailable', 'maintenance', 'inactive'])->default('available');
             
             // Base Model
             $table->foreignId('created_by')->constrained('users');
