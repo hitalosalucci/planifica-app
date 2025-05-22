@@ -3,8 +3,7 @@
 namespace App\Models\Person;
 
 use App\Enums\PersonGenderEnum;
-use App\Enums\RoomStatusEnum;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Enums\StatusEnum;
 use App\Models\BaseModel;
 use App\Models\Event\EventModel;
 
@@ -18,12 +17,13 @@ class PersonModel extends BaseModel
         'birth_date',
         'phone',
         'email',
-        'gender'
+        'gender',
+        'status'
     ];
 
     protected $casts = [
         'gender' => PersonGenderEnum::class,
-        'status' => RoomStatusEnum::class,
+        'status' => StatusEnum::class,
         'birth_date' => 'date'
     ];
 

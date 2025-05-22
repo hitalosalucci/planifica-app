@@ -2,7 +2,7 @@
 
 namespace App\Models\Event;
 
-use App\Enums\RoomStatusEnum;
+use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\BaseModel;
 
@@ -14,12 +14,13 @@ class EventModel extends BaseModel
         'description',
         'date',
         'capacity',
-        'quantity_stages'
+        'quantity_stages',
+				'status'
     ];
 
     protected $casts = [
         'date' => 'datetime',
-        'status' => RoomStatusEnum::class
+        'status' => StatusEnum::class
     ];
 
     protected $attributes = [
