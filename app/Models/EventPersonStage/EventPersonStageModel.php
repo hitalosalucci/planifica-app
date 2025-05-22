@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models\EventPersonStage;
+
+use App\Enums\RoomStatusEnum;
+use App\Models\EventPerson\EventPersonModel;
+use App\Models\CoffeeRoom\CoffeeRoomModel;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+
+class EventPersonStage extends Pivot
+{
+    protected $table = 'event_people_stages';
+
+    protected $casts = [
+        'status' => RoomStatusEnum::class
+    ];
+
+    public function eventPerson()
+    {
+        return $this->belongsTo(EventPersonModel::class, 'event_person_id');
+    }
+
+    public function coffeeRoom()
+    {
+        return $this->belongsTo(CoffeeRoomModel::class, 'coffee_room_id');
+    }
+}
