@@ -41,9 +41,25 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
       MYSQL_USER: ${DB_USERNAME:-username}
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-laravel}:3306"
     volumes:
       - dbdata:/var/lib/mysql
+    networks:
+      - laravel-network
+
+  db-testing:
+    image: mariadb:10.11
+    container_name: mariadb-server-testing
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_TESTING_DATABASE:-laravel}
+      MYSQL_ROOT_PASSWORD: ${DB_TESTING_PASSWORD:-root}
+      MYSQL_PASSWORD: ${DB_TESTING_PASSWORD:-userpass}
+      MYSQL_USER: ${DB_TESTING_USERNAME:-username}
+    ports:
+      - "${DB_TESTING_PORT:-3307}:3306"
+    volumes:
+      - dbtestingdata:/var/lib/mysql
     networks:
       - laravel-network
 
@@ -73,5 +89,7 @@ networks:
 
 volumes:
   dbdata:
+    driver: local
+  dbtestingdata:
     driver: local
   node_modules:
