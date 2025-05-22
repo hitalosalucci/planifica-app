@@ -104,7 +104,12 @@ const props = defineProps({
 
 // Internal state
 const text = defineModel();
-const valMask = ref(text.value);
+const valMask = computed({
+  get: () => text.value,
+  set: (val) => {
+    text.value = val;
+  }
+});
 const maxLength = ref(props.max);
 const inputElement = ref(null);
 const hasFocusStyleClass = ref(false);
