@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * @template TModel of Model
@@ -35,7 +36,14 @@ abstract class BaseRepository
      */
     public function getAll(array $columns = ['*'], array $relations = []): Collection
     {
-      return $this->model->with($relations)->get($columns);
+      $query = $this->model->with($relations);
+
+      // Verifica se a tabela tem a coluna "created_at"
+      if (Schema::hasColumn($this->model->getTable(), 'created_at')) {
+          $query->orderByDesc('created_at');
+      }
+  
+      return $query->get($columns);
     }
 
     /**
@@ -46,10 +54,15 @@ abstract class BaseRepository
 
       Paginator::currentPageResolver(fn() => $page);
 
-      return $this->model
-        ->with($relations)
-        ->orderBy($orderBy, $orderDirection)
-        ->paginate($perPage, $columns);
+      $query = $this->model->with($relations);
+
+      if ($orderBy === 'id' && Schema::hasColumn($this->model->getTable(), 'created_at')) {
+        $query->orderByDesc('created_at');
+      } else {
+        $query->orderBy($orderBy, $orderDirection);
+      }
+
+      return $query->with($relations)->paginate($perPage, $columns);
     }
 
     /**
