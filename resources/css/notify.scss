@@ -1,9 +1,39 @@
 .bg-success-notify {
   @extend .brand-bg-success-light;
-  border-radius: 8px;
+  border-radius: 8px !important;
 
   .q-notification__message {
     @extend .brand-text-success;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
+  }
+}
+
+.bg-error-notify {
+  @extend .brand-bg-error-light;
+  border-radius: 8px !important;
+
+  .q-notification__message {
+    @extend .brand-text-error;
+    font-weight: 700 !important;
+  }
+}
+
+.bg-warning-notify {
+  @extend .brand-bg-warning-light;
+  border-radius: 8px !important;
+
+  .q-notification__message {
+    @extend .brand-text-warning;
+    font-weight: 700 !important;
+  }
+}
+
+.bg-info-notify {
+  @extend .brand-bg-info-light;
+  border-radius: 8px !important;
+
+  .q-notification__message {
+    @extend .brand-text-info;
+    font-weight: 700 !important;
   }
 }

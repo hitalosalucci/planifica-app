@@ -23,5 +23,9 @@
 }
 
 .brand-border-bottom-1-solid-default {
-  border-bottom: 1px solid $color-gray-200;
+  border-bottom: 1px solid $color-gray-200 !important;
+}
+
+.brand-border-top-solid-default {
+  border-top: 0.8px solid $color-gray-200 !important;
 }

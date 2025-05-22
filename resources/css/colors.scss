@@ -3,15 +3,15 @@
 }
 
 .brand-bg-secondary {
-  background-color: $secondary;
+  background-color: $secondary !important;;
 }
 
 .brand-bg-dark {
-  background-color: $dark;
+  background-color: $dark !important;;
 }
 
 .brand-bg-disabled {
-  background-color: $color-gray-200;
+  background-color: $color-gray-200 !important;;
 }
 
 .brand-bg-primary {
@@ -27,31 +27,31 @@
 }
 
 .brand-bg-warning-light {
-  background-color: $warning-light;
+  background-color: $warning-light !important;;
 }
 
 .brand-bg-info-light {
-  background-color: $info-light;
+  background-color: $info-light !important;;
 }
 
 .brand-bg-success-light {
-  background-color: $positive-light;
+  background-color: $positive-light !important;;
 }
 
 .brand-bg-error {
-  background-color: $negative;
+  background-color: $negative !important;;
 }
 
 .brand-bg-info {
-  background-color: $info;
+  background-color: $info !important;;
 }
 
 .brand-bg-success {
-  background-color: $positive;
+  background-color: $positive !important;;
 }
 
 .brand-bg-warning {
-  background-color: $warning;
+  background-color: $warning !important;;
 }
 
 .brand-bg-gray-100 {
@@ -190,4 +190,9 @@
 
 .brand-text-gray-900 {
   color: $color-gray-900 !important;
+}
+
+.brand-active-menu{
+  background-color: $primary-light-2 !important;
+  color: $primary;
 }
