@@ -21,7 +21,7 @@ Planifica App - Gestão organizada de evento
 
 ~ docker-compose up -d
 
-### Acesse o container da aplicação (serviço "app") e estando nele, rode os comandos abaixo (Essa configuração só será necessária uma vez, ao rodar o projeto pela primeira vez)
+### Rode os comandos abaixo focados no container "app" (Essa configuração só será necessária uma vez, ao rodar o projeto pela primeira vez)
 
 ~ docker-compose exec app sh
 
@@ -29,6 +29,12 @@ Planifica App - Gestão organizada de evento
 ~ docker-compose exec app php artisan migrate #Para rodar as migrações do banco de dados
 
 ~ docker-compose exec app php artisan key:generate --env=testing #Para criar a key no .env.testing
+
+### Crie o primeiro usuário do sistema com seeder
+
+~ docker-compose exec app php artisan db:seed --class=FirstAdminUserSeeder
+
+Credenciais do usuário criado: email: admin@example.com | pass: password@123
 
 <!-- ### Configure o ambiente laravel
 
