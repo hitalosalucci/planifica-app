@@ -40,7 +40,50 @@ cp .env.example .env
 ```
 
 ### Defina as variáveis ambiente de acordo com seu ambiente
------
+
+```
+APP_URL=http://localhost:8000
+
+#Variaveis para uso no frontend com o Vite | Importante: Necessário o prefixo VITE_ para que o Vite reconheça
+VITE_DEV_SERVER_URL=http://localhost:5173
+VITE_BACK_END_BASE_URL=http://localhost:8000/api/v1
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+#Banco de dados da aplicação de teste - Usado para criação do docker
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE='your_db'
+DB_USERNAME='your_user'
+DB_PASSWORD='your_pass$@123'
+
+```
+
+### Defina as variáveis ambiente do .env.testing de acordo com seu ambiente de teste
+```
+APP_URL=http://localhost:8000
+
+#Variaveis para uso no frontend com o Vite | Importante: Necessário o prefixo VITE_ para que o Vite reconheça
+VITE_DEV_SERVER_URL=http://localhost:5173
+VITE_BACK_END_BASE_URL=http://localhost:8000/api/v1
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+#Banco de dados da aplicação de teste - Usado para criação do docker
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3307
+DB_DATABASE='your_db_testing'
+DB_USERNAME='your_user_testing'
+DB_PASSWORD='your_pass$@123_testing'
+
+```
+
 
 #### IMPORTANTE: Caso já tenha subido o container e depois modificado as variáveis de ambiente que afetam outros containers, como dados do db, por exemplo será necessário recriar os volumes persistentes, com isso ele recriará o banco de dados com as variáveis corretas
 
@@ -83,7 +126,7 @@ npm i
 ```
 npm run dev
 ```
-### Para rodar os testes de integração
+### Para rodar os testes de integração (Lembre-se de configurar o .env.testing)
 ```
 php artisan test
 ```
