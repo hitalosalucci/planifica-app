@@ -38,6 +38,39 @@ const routes = [
           icon: 'event',
         },
       },
+      {
+        path: "people",
+        name: "people",
+        component: () => import("../pages/People/PeoplePage.vue"),
+        meta: {
+          requiresAuth: true,
+          label: 'Pessoas',
+          description: 'Gerencie as pessoas que participarão dos seus eventos',
+          icon: 'groups',
+        },
+      },
+      {
+        path: "room",
+        name: "room",
+        component: () => import("../pages/Rooms/RoomsPage.vue"),
+        meta: {
+          requiresAuth: true,
+          label: 'Salas',
+          description: 'Gerencie as suas salas de maneira simples',
+          icon: 'meeting_room',
+        },
+      },
+      {
+        path: "coffee-room",
+        name: "coffee-room",
+        component: () => import("../pages/CoffeeRooms/CoffeeRoomsPage.vue"),
+        meta: {
+          requiresAuth: true,
+          label: 'Salas de café',
+          description: 'Gerencie as suas salas de café, garantindo um Coffee Break organizado',
+          icon: 'coffee',
+        },
+      },
     ],
     meta: {
       requiresAuth: true,

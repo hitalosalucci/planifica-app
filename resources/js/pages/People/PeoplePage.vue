@@ -1,12 +1,11 @@
 <template>
-  {{ formModel }}
-  
+
   <StandardTable :rows="eventsList" :columns="columns" row-key="id" :loading="isLoadingData">
     <template #table-top-right>
-      <StandardButton label="Novo Evento" buttonClass="brand-button-secondary" leftIcon="add" @click="openCreateDialog" />
+      <StandardButton label="Novo Cadastro" buttonClass="brand-button-secondary" leftIcon="add" @click="openCreateDialog" />
     </template>
 
-    <template #column-date="{value}">
+    <template #column-birth_date="{value}">
       <span v-if="value">
         {{ date.formatDate(value, 'DD/MM/YYYY') }}
       </span>
@@ -19,10 +18,10 @@
 
       <div class="flex items-center justify-center">
         <StandardButton flat buttonClass="brand-button-flat text-negative" :loading="isLoadingSave" popupProxy color="negative"
-          leftIcon="delete" size="12px" tooltip="Remover Evento" @confirm="deleteData(row.id)" />
+          leftIcon="delete" size="12px" tooltip="Remover Pessoa" @confirm="deleteData(row.id)" />
   
         <StandardButton flat buttonClass="brand-button-flat text-info" :loading="isLoadingSave" color="info"
-          leftIcon="edit" size="12px" tooltip="Editar evento" @click="openUpdateDialog(row)" />
+          leftIcon="edit" size="12px" tooltip="Editar Pessoa" @click="openUpdateDialog(row)" />
       </div>
 
     </template>
@@ -32,9 +31,9 @@
 
     <q-card style="width: 56vw; max-width: 95vw" class="brand-border-radius-16">
       <q-toolbar>
-        <q-icon name="event" size="24px" />
-        <q-toolbar-title v-if="!isEdit"> Novo evento </q-toolbar-title>
-        <q-toolbar-title v-else> Editar Evento </q-toolbar-title>
+        <q-icon name="person" size="24px" />
+        <q-toolbar-title v-if="!isEdit"> Novo cadastro </q-toolbar-title>
+        <q-toolbar-title v-else> Editar cadastro </q-toolbar-title>
         <q-btn flat round dense icon="close" v-close-popup :loading="loading" :disable="loading" />
       </q-toolbar>
 
@@ -46,25 +45,30 @@
 
         <q-form @submit="onSubmit" autofocus class="q-gutter-y-sm" v-model="formModel" ref="form">
 
-          <q-input dense outlined autogrow clearable v-model="formModel.description" label="Descrição do evento*"
-            :rules="[val => val && val.length > 0 || 'Descrição é obrigatória']" />
+          <q-input dense outlined autogrow clearable v-model="formModel.name" label="Nome Completo*"
+            :rules="[val => val && val.length > 0 || 'Nome é obrigatório']" />
+
+          
 
           <div class="row q-gutter-x-md">
             <div class="col">
+              <q-input dense outlined autogrow clearable v-model="formModel.cpf" label="CPF*"
+                :rules="[val => val && val.length > 0 || 'CPF é obrigatório']" mask="###.###.###-##" unmasked-value />
+            </div>
 
+            <div class="col">
               <q-input
                 :loading="loading"
                 :disable="loading"
                 dense
                 outlined
-                label="Data do evento*"
+                label="Data de Nascimento"
                 cursor="pointer"
                 :model-value="
-                  formModel.date
-                    ? date.formatDate(new Date(formModel.date + 'T00:00:00'), 'DD/MM/YYYY')
+                  formModel.birth_date
+                    ? date.formatDate(new Date(formModel.birth_date + 'T00:00:00'), 'DD/MM/YYYY')
                     : null
                 "
-                :rules="[validateDateMin]"
               >
                 <q-popup-proxy
                   transition-show="flip-up"
@@ -72,7 +76,7 @@
                 >
                   <q-date
                     color="primary"
-                    v-model="formModel.date"
+                    v-model="formModel.birth_date"
                     mask="YYYY-MM-DD"
                   >
                     <div class="row items-center justify-end">
@@ -85,25 +89,29 @@
                 </template>
                 <template v-slot:append>
                   <q-icon
-                    v-if="formModel.date"
+                    v-if="formModel.birth_date"
                     name="cancel"
                     class="cursor-pointer"
-                    @click="formModel.date = null"
+                    @click="formModel.birth_date = null"
                   />
                 </template>
               </q-input>
 
             </div>
+            
+          </div>
+
+          <div class="row  q-gutter-x-md">
             <div class="col">
-              <q-input type="number" min="1" dense outlined v-model="formModel.capacity" label="Capacidade máxima*"
-                :rules="[val => val && val > 1 || 'Capacidade é obrigatória']" />
+              <q-input dense outlined autogrow clearable v-model="formModel.phone" label="Telefone"
+                mask="(##) #####-####" unmasked-value />
             </div>
+
             <div class="col">
-              <q-input type="number" min="1" dense outlined v-model="formModel.quantity_stages" label="Quantidade de etapas (turnos)*"
-                :rules="[val => val && val > 1 || 'Quantidade de estágios é obrigatório']" />
+              <q-input dense outlined autogrow clearable v-model="formModel.email" label="Email" />
             </div>
           </div>
-    
+
           <div class="q-mt-lg q-gutter-x-sm flex items-center q-gutter-x-sm justify-end">
             <StandardButton v-if="isEdit" label="Cancelar" buttonClass="brand-button-negative" v-close-popup :loading="isLoadingSave" />
             <StandardButton label="Salvar" buttonClass="brand-button-secondary" @click="form.submit()" :loading="isLoadingSave" />
@@ -128,7 +136,7 @@ import StandardInput from "../../components/inputs/StandardInput.vue";
 import StandardButton from "../../components/inputs/StandardButton.vue";
 
 defineOptions({
-  name: "EventsPage",
+  name: "PeoplePage",
 });
 
 const { notifyError, notifySuccess } = useNotify();
@@ -139,11 +147,14 @@ const dialogModel = ref(false);
 const isEdit = ref(false);
 const form = ref(null)
 
+
 const initialForm = {
-  description: null,
-  date: null,
-  capacity: null,
-  quantity_stages: 2
+  name: null,
+  cpf: null,
+  birth_date: null,
+  phone: null,
+  email: null,
+  gender: null
 }
 const formModel = ref(initialForm);
 const todayDate = date.formatDate(new Date(), 'YYYY-MM-DD')
@@ -153,14 +164,15 @@ const validateDateMin = val => {
 }
 
 onMounted( () => {
-  getEvents();
+  getData();
 })
 
 const columns = [
-  { name: 'description', field: 'description', label: 'Descrição', sortable: true, align: 'left' },
-  { name: 'date', field: 'date', label: 'Data', sortable: true, align: 'left' },
-  { name: 'capacity', field: 'capacity', label: 'Capacidade', sortable: true, align: 'left' },
-  { name: 'quantity_stages', field: 'quantity_stages', label: 'Estágios', sortable: true, align: 'left' },
+  { name: 'cpf', field: 'cpf', label: 'CPF', sortable: true, align: 'left' },
+  { name: 'name', field: 'name', label: 'Nome', sortable: true, align: 'left' },
+  { name: 'birth_date', field: 'birth_date', label: 'Data de nascimento', sortable: true, align: 'left' },
+  { name: 'phone', field: 'phone', label: 'Telefone', sortable: true, align: 'left' },
+  { name: 'email', field: 'email', label: 'Email', sortable: true, align: 'left' },
 ]
 
 const openCreateDialog = () => {
@@ -175,13 +187,13 @@ const openUpdateDialog = (row) => {
 
   formModel.value = { ...row }; //Necessário para os objetos não ficarem ligados por referência
   formModel.value.id = row.id;
-  formModel.value.date = row.date ? date.formatDate(row.date, 'YYYY-MM-DD') : null;
+  formModel.value.birth_date = row.birth_date ? date.formatDate(row.birth_date, 'YYYY-MM-DD') : null;
 }
 
-const getEvents = async () => {
+const getData = async () => {
   isLoadingData.value = true;
   const response = await api.get(
-    '/events'
+    '/people'
   );
 
   if(response.data){
@@ -197,14 +209,14 @@ const onSubmit = async () => {
   let response;
 
   if (isEdit.value) {
-    const endpoint = `/events/${formModel.value.id}`;
+    const endpoint = `/people/${formModel.value.id}`;
     response = await api.put(endpoint, formModel.value);
   } else {
-    response = await api.post('/events', formModel.value);
+    response = await api.post('/people', formModel.value);
   }
 
   if(response.data){
-    getEvents();
+    getData();
     dialogModel.value = false;
     notifySuccess('Alterações foram salvas');
     isLoadingSave.value = false
@@ -220,10 +232,10 @@ const deleteData = async (id) => {
   
   try{
     const response = await api.delete(
-      `/events/${id}`,
+      `/people/${id}`,
     );
   
-    getEvents();
+    getData();
     notifySuccess('Dado foi apagado');
   }
   catch(error){
