@@ -17,6 +17,16 @@ O nome "Planifica" vem do verbo "planificar", ou seja, organizar ou desenvolver 
   <img src="https://miro.medium.com/v2/resize:fit:1400/1*kbg1MaAgXlMyJjPB39oaag.png" width="100px" />
 </div>
 
+### Motivação
+Desenvolvido com as versões mais atuais das stacks listadas e com boas práticas de programação, aí vai uma explicação da motivação de cada escolha:
+- Laravel: Mais conhecido framework PHP, trás um vasto ferramental para desenvolvimento embutido
+- Vite: Padrão do Laravel nas versões mais atuais e também foi utilizado para rodarmos o VueJs com Laravel de forma nativa
+- VueJs: Muito simples de utilizar em comparação com os concorrentes (React e Angular), trás um ecossistema rico
+- Quasar: Framework muito conhecido no ecossistema Vue, trás uma série de componentes e ferramentas já prontas para utilização no frontend
+- MariaDb: Escolhido por ser totalmente opensource e uma excelente compatibilidade com o PHP
+- PHP: Pré-requisito do Desafio
+- Não utilização de templates: O frontend não foi feito com uso de templates, foi utilizando o ferramental do VueJs + Quasar. A utilização de templates deixa rápida o desenvolvimento, mas pode inflar com componentes e arquivos que não serão utilizados no momento, há uma dependência das bibliotecas e tecnologias escolhidas pelo mantenedor do template e além de fazer a interface por conta própria trás uma liberdade para desenvolver da forma como quiser
+
 ## UML Base
 Foi montado um modelo BASE UML para como ficaria as Classes de Modelo e Entidades principais do sistema, bem com sua relação por Herança com outras classes
 
