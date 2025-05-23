@@ -108,7 +108,7 @@ docker compose run --rm npm run build  # gera o diretório public/build/...
 ----------------
 
 ### Explicação de como a integração do Laravel + Vue através do vite funciona
-# Porta 8000 (Laravel + Nginx)
+#### Porta 8000 (Laravel + Nginx)
 O que roda: Aplicação Laravel (backend)
 
 Como acessar: http://localhost:8000
