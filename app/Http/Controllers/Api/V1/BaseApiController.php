@@ -53,18 +53,9 @@ abstract class BaseApiController
         try {
             $dtoClass = $this->getCreateDTO();
             
-            $constructor = (new \ReflectionClass($dtoClass))->getConstructor();
-            $params = $constructor?->getParameters() ?? [];
+            $dto = $dtoClass::fromRequest($request);
 
-            // Extrai os valores do request na ordem correta
-            $args = collect($params)
-                ->map(function ($param) use ($request) {
-                    $key = $param->getName();
-                    return $request->input($key, $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null);
-                })
-                ->all();
-
-            $dto = new $dtoClass(...$args);
+            $data = $this->service->create($dto);
 
             $data = $this->service->create($dto);
             return $this->successResponse($data, Response::HTTP_CREATED, 'Registro criado com sucesso');
@@ -82,18 +73,8 @@ abstract class BaseApiController
     {
         try {
             $dtoClass = $this->getUpdateDTO();
-            $constructor = (new \ReflectionClass($dtoClass))->getConstructor();
-            $params = $constructor?->getParameters() ?? [];
 
-            // Extrai os valores do request na ordem correta
-            $args = collect($params)
-                ->map(function ($param) use ($request) {
-                    $key = $param->getName();
-                    return $request->input($key, $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null);
-                })
-                ->all();
-
-            $dto = new $dtoClass(...$args);
+            $dto = $dtoClass::fromRequest($request);
 
             $data = $this->service->update($id, $dto);
             return $this->successResponse($data, Response::HTTP_OK, 'Registro atualizado com sucesso');
