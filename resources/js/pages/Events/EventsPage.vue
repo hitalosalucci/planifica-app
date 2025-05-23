@@ -1,5 +1,4 @@
 <template>
-  {{ formModel }}
   
   <StandardTable :rows="eventsList" :columns="columns" row-key="id" :loading="isLoadingData">
     <template #table-top-right>
@@ -23,6 +22,9 @@
   
         <StandardButton flat buttonClass="brand-button-flat text-info" :loading="isLoadingSave" color="info"
           leftIcon="edit" size="12px" tooltip="Editar evento" @click="openUpdateDialog(row)" />
+
+        <StandardButton flat buttonClass="brand-button-flat text-primary" :loading="isLoadingSave" color="primary"
+          leftIcon="group" size="12px" tooltip="Pessoas no evento" @click="openPeopleEventDialog(row)" />
       </div>
 
     </template>
@@ -115,6 +117,99 @@
     </q-card>
   </q-dialog>
 
+
+  <q-dialog v-model="dialogPeopleModel" persistent side="right" overlay bordered :width="450">
+
+    <q-card style="width: 60vw; max-width: 95vw" class="brand-border-radius-16">
+      <q-toolbar>
+        <q-icon name="group" size="24px" />
+        <q-toolbar-title>Pessoas no evento - {{eventDetails.description}} </q-toolbar-title>
+        <q-btn flat round dense icon="close" v-close-popup :loading="loading" :disable="loading" />
+      </q-toolbar>
+
+      <q-card-section>
+        <div class="text-caption q-mb-lg flex items-center">
+          <q-icon name="info" class="q-mr-xs" />
+          Aqui você acompanhará as pessoas que estão no evento
+        </div>
+
+        <StandardTable :rows="peopleInEventList" :columns="columnsPeopleInEvent" row-key="id" :loading="isLoadingPeopleData">
+          <template #table-top-right>
+            <StandardButton label="Adicionar pessoa" buttonClass="brand-button-secondary" leftIcon="add" @click="dialogAddPersonInEventModel = true" />
+          </template>
+
+          <template #column-entry_code="{row}">
+            <span v-if="row.pivot?.entry_code">
+              {{ row.pivot?.entry_code }} 
+            </span>
+            <span v-else class="text-negative">
+              Não informado
+            </span>
+          </template>
+
+          <template #column-actions="{row}">
+
+            <div class="flex items-center justify-center">
+              <StandardButton flat buttonClass="brand-button-flat text-negative" :loading="isLoadingSave" popupProxy color="negative"
+                leftIcon="cancel" size="12px" tooltip="Remover pessoa do evento" @confirm="detachPersonEvent(eventDetails.id, row.id)" />
+            </div>
+      
+          </template>
+        </StandardTable>
+
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="dialogAddPersonInEventModel" persistent side="right" overlay bordered :width="450">
+
+    <q-card style="width: 60vw; min-height: 38vh; max-width: 95vw" class="brand-border-radius-16">
+      <q-toolbar>
+        <q-icon name="person_add" size="24px" />
+        <q-toolbar-title>Adicionar pessoa no evento</q-toolbar-title>
+        <q-btn flat round dense icon="close" v-close-popup :loading="loading" :disable="loading" />
+      </q-toolbar>
+
+      <q-card-section>
+        <div class="text-caption q-mb-lg flex items-center">
+          <q-icon name="info" class="q-mr-xs" />
+          Adicione as informações da pessoa e clique em "Salvar"
+        </div>
+
+        <q-form @submit="onSubmitEventPerson" autofocus class="q-gutter-y-sm" v-model="formPersonModel" ref="formPersonEvent">
+
+          <q-select
+            v-model="formPersonModel.person_id"
+            use-input
+            @filter="filterOptionsPeople"
+            :options="optionsPeople"
+            label="Selecione a pessoa"
+            emit-value
+            option-value="id"
+            option-label="name"
+            map-options
+            dense
+            outlined
+          >
+          </q-select>
+
+          <q-input dense outlined autogrow clearable v-model="formPersonModel.entry_code" label="Código de Entrada"
+            mask="AAA-####" unmasked-value hint="Digite 3 letras e 4 números"
+            :rules="[
+              val => !val || /^[A-Za-z]{3}\d{4}$/.test(val) || 'Formato: 3 letras + 4 números (ex: ABC1234)'
+            ]" />
+    
+          <div class="q-mt-lg q-gutter-x-sm flex items-center q-gutter-x-sm justify-end">
+            <StandardButton v-if="isEdit" label="Cancelar" buttonClass="brand-button-negative" v-close-popup :loading="isLoadingSave" />
+            <StandardButton label="Salvar" buttonClass="brand-button-secondary" @click="formPersonEvent.submit()" :loading="isLoadingSave" />
+          </div>
+
+        </q-form>
+
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+
 </template>
 
 <script setup>
@@ -134,10 +229,17 @@ defineOptions({
 const { notifyError, notifySuccess } = useNotify();
 const isLoadingSave = ref(false);
 const isLoadingData = ref(false);
+const isLoadingPeopleData = ref(false);
 const eventsList = ref([]);
+const peopleInEventList = ref([]);
 const dialogModel = ref(false);
+const dialogPeopleModel = ref(false);
+const dialogAddPersonInEventModel = ref(false);
+const eventDetails = ref();
 const isEdit = ref(false);
 const form = ref(null)
+const formPersonEvent = ref(null)
+const optionsPeople = ref([[]])
 
 const initialForm = {
   description: null,
@@ -146,6 +248,11 @@ const initialForm = {
   quantity_stages: 2
 }
 const formModel = ref(initialForm);
+
+const formPersonModel = ref({
+  person_id: null,
+  entry_code: null,
+});
 const todayDate = date.formatDate(new Date(), 'YYYY-MM-DD')
 
 const validateDateMin = val => {
@@ -162,6 +269,74 @@ const columns = [
   { name: 'capacity', field: 'capacity', label: 'Capacidade', sortable: true, align: 'left' },
   { name: 'quantity_stages', field: 'quantity_stages', label: 'Estágios', sortable: true, align: 'left' },
 ]
+
+const columnsPeopleInEvent = [
+  { name: 'name', field: 'name', label: 'Descrição', sortable: true, align: 'left' },
+  { name: 'cpf', field: 'cpf', label: 'CPF', sortable: true, align: 'left' },
+  { name: 'entry_code', field: 'entry_code', label: 'Entrada', sortable: true, align: 'left' },
+]
+
+const openPeopleEventDialog = (eventRow) => {
+  dialogPeopleModel.value = true;
+  eventDetails.value = eventRow;
+
+  getPersonEvent(eventRow.id);
+}
+
+const filterOptionsPeople = async (val, update, abort) => {
+  const people = await getPeople();
+
+  if (val === '') {
+    update(() => {
+      // filtra apenas por pessoas que não estão no evento;
+      optionsPeople.value = people.filter(person => 
+        !peopleInEventList.value.some(personInEvent => personInEvent.id === person.id)
+      );
+    })
+    return
+  }
+  update(() => {
+    const needle = val.toLowerCase()
+    optionsPeople.value = people.filter(
+      v => v.name.toLowerCase().indexOf(needle) > -1
+    )
+  })
+}
+
+const getPeople = async () => {
+  const response = await api.get(
+    `/people`
+  );
+
+  return response.data
+}
+
+const getPersonEvent = async (eventId) => {
+  isLoadingPeopleData.value = true;
+  const response = await api.get(
+    `/events/${eventId}/people`
+  );
+
+  if(response.data){
+    peopleInEventList.value = response.data;
+  }
+
+  isLoadingPeopleData.value = false;
+}
+
+const detachPersonEvent = async (eventId, personId) => {
+  isLoadingPeopleData.value = true;
+  const response = await api.delete(
+    `/events/${eventId}/people/${personId}`
+  );
+
+  if(response.data){
+    getPersonEvent(eventId);
+    notifySuccess('Alterações foram salvas');
+  }
+
+  isLoadingPeopleData.value = false;
+}
 
 const openCreateDialog = () => {
   isEdit.value = false;
@@ -191,7 +366,6 @@ const getEvents = async () => {
 }
 
 const onSubmit = async () => {
-
   isLoadingSave.value = true;
 
   let response;
@@ -213,6 +387,29 @@ const onSubmit = async () => {
 
   notifyError('Erro ao realizar alteração')
   isLoadingSave.value = false
+}
+
+const onSubmitEventPerson = async () => {
+  isLoadingPeopleData.value = true;
+  const eventId = eventDetails.value.id;
+
+  const response = await api.post(`events/${eventId}/people`, formPersonModel.value);
+
+  if(response.data){
+    getPersonEvent(eventId);
+    dialogAddPersonInEventModel.value = false;
+    notifySuccess(`Pessoa adicionada no evento: ${eventDetails.value.description}`);
+    isLoadingSave.value = false
+
+    formPersonModel.value = {
+      person_id: null,
+      entry_code: null
+    }
+    return
+  }
+
+  notifyError('Erro ao realizar alteração')
+  isLoadingPeopleData.value = false
 }
 
 const deleteData = async (id) => {
