@@ -23,6 +23,24 @@
   @extend .brand-text-dark;
 }
 
+.brand-button-negative {
+  @extend .brand-standard-button;
+  @extend .brand-bg-error;
+  @extend .brand-text-light;
+}
+
+.brand-button-positive {
+  @extend .brand-standard-button;
+  @extend .brand-bg-success;
+  @extend .brand-text-light;
+}
+
+.brand-button-flat {
+  @extend .brand-standard-button;
+  background-color: transparent;
+  padding: 4px 8px !important;
+}
+
 .hidden-visibility {
   visibility: hidden;
 }
