@@ -29,6 +29,8 @@ Route::prefix('v1')->group(function () { //Versionamento manual da rota
     });
 
     Route::prefix('people')->middleware('auth:sanctum')->group(function () {
+        Route::get('/{person}/events', [PersonController::class, 'getEventsByPeople']);
+
         Route::get('/', [PersonController::class, 'getAll']);
         Route::get('/{perPage}/{page?}', [PersonController::class, 'getAllPaginated']);
         Route::post('/', [PersonController::class, 'store']);
@@ -37,6 +39,10 @@ Route::prefix('v1')->group(function () { //Versionamento manual da rota
     });
 
     Route::prefix('events')->middleware('auth:sanctum')->group(function () {
+        Route::post('/{event}/people', [EventController::class, 'attachPerson']); //associar pessoa ao evento
+        Route::delete('/{event}/people/{person}', [EventController::class, 'detachPerson']); //desassociar pessoa ao evento
+        Route::get('/{event}/people', [EventController::class, 'getPeople']);
+
         Route::get('/', [EventController::class, 'getAll']);
         Route::get('/{perPage}/{page?}', [EventController::class, 'getAllPaginated']);
         Route::post('/', [EventController::class, 'store']);
