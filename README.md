@@ -2,7 +2,9 @@
 
 O nome "Planifica" vem do verbo "planificar", ou seja, organizar ou desenvolver um plano, criar um esquema para algo
 
-<img src="./DOCS/planifica_demo.gif"/>
+<div align="center">
+  <img src="./DOCS/planifica_demo.gif"/>
+</div>
 
 ## Stacks
 
@@ -13,6 +15,14 @@ O nome "Planifica" vem do verbo "planificar", ou seja, organizar ou desenvolver 
   <img src="https://images.icon-icons.com/2699/PNG/512/vuejs_logo_icon_169247.png" width="100px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://miro.medium.com/v2/resize:fit:1400/1*kbg1MaAgXlMyJjPB39oaag.png" width="100px" />
 </div>
+
+## UML Base
+Foi montado um modelo BASE UML para como ficaria as Classes de Modelo e Entidades principais do sistema, bem com sua relação por Herança com outras classes
+
+<div align="center">
+  <img src="./DOCS/UML/uml_model_light.png" width="800px"/>
+</div>
+
 
 ## Rodar o projeto
 
