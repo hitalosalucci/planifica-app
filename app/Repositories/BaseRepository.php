@@ -19,7 +19,7 @@ abstract class BaseRepository
     protected $model;
 
     /**
-     * @param Model $model
+     * @param TModel $model
      * BaseRepository constructor.
      */
     public function __construct(Model $model)
@@ -77,7 +77,7 @@ abstract class BaseRepository
       $model = $this->model
         ->with($relations)
         ->select($columns)
-        ->find($id);
+        ->findOrFail($id);
 
       return $model?->append($appends);
     }
