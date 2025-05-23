@@ -38,16 +38,18 @@ Foi montado um modelo BASE UML para como ficaria as Classes de Modelo e Entidade
 
 ### Versionamento da API
 
+```
 app/
 └── Http/
     └── Controllers/
         └── Api/
             ├── V1/
             │   ├── UserController.php
-            │   └── ProductController.php
+            │   └── EventController.php
             └── V2/
                 ├── UserController.php (com novos campos)
-                └── ProductController.php
+                └── EventController.php
+```
 
 - Foi realizado um versionamento da API, todos os Controllers estão "isolados" para utilização da V1, V2, .... e assim por diante
 - Todas requisições seguirão um formato de ```http://BASE_URL/api/VERSAO/endpoint``` (Exemplo: ```http://BASE_URL/api/V1/events```).
