@@ -1,71 +1,100 @@
-Planifica App - Gestão organizada de evento
+#Planifica App - Gestão organizada de eventos e salas
+
+O nome "Planifica" vem do verbo "planificar", ou seja, organizar ou desenvolver um plano, criar um esquema para algo
+
+<img src="./DOCS/planifica_demo.gif"/>
+
+## Stacks
+
+<div align="center">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-17ketly3vXpdvvWfaJXp698VXNDUMXjNvw&s" width="100px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Logo.min.svg/2560px-Logo.min.svg.png" width="100px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://pbs.twimg.com/media/EtZYf1FWYAMmtHj.jpg" width="100px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://images.icon-icons.com/2699/PNG/512/vuejs_logo_icon_169247.png" width="100px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://miro.medium.com/v2/resize:fit:1400/1*kbg1MaAgXlMyJjPB39oaag.png" width="100px" />
+</div>
+
+## Rodar o projeto
 
 ### Passo a passo
 -Criar arquivo .env com base no .env.example
 
-~ cp .env.example .env 
+```
+cp .env.example .env 
+```
 
 -Criar arquivo .env.testing com base no .env.testing.example - Contém as variáveis de ambiente para rodar os testes de integração
 
+```
 ~ cp .env.example .env.testing
+```
 
 ### Defina as variáveis ambiente de acordo com seu ambiente
 -----
 
 #### IMPORTANTE: Caso já tenha subido o container e depois modificado as variáveis de ambiente que afetam outros containers, como dados do db, por exemplo será necessário recriar os volumes persistentes, com isso ele recriará o banco de dados com as variáveis corretas
 
-~ docker-compose down -v --remove-orphans
-~ docker-compose up -d --build
+```
+docker-compose down -v --remove-orphans
+docker-compose up -d --build
+```
 
 ### Iniciar os containers Docker
 
-~ docker-compose up -d
+```
+docker-compose up -d
+```
 
 ### Rode os comandos abaixo focados no container "app" (Essa configuração só será necessária uma vez, ao rodar o projeto pela primeira vez)
 
-~ docker-compose exec app sh
+```
+docker-compose exec app sh
 
-~ docker-compose exec app php artisan key:generate #Caso não tenha gerado a key anteriormente
-~ docker-compose exec app php artisan migrate #Para rodar as migrações do banco de dados
+docker-compose exec app php artisan key:generate #Caso não tenha gerado a key anteriormente
+docker-compose exec app php artisan migrate #Para rodar as migrações do banco de dados
 
-~ docker-compose exec app php artisan key:generate --env=testing #Para criar a key no .env.testing
+docker-compose exec app php artisan key:generate --env=testing #Para criar a key no .env.testing
+```
 
 ### Crie o primeiro usuário do sistema com seeder
 
-~ docker-compose exec app php artisan db:seed --class=FirstAdminUserSeeder
+```
+docker-compose exec app php artisan db:seed --class=FirstAdminUserSeeder
+```
 
 Credenciais do usuário criado: email: admin@example.com | pass: password@123
 
-<!-- ### Configure o ambiente laravel
-
-~ docker-compose run --rm artisan key:generate
-
-### Rode as migrations para criação das tabelas e banco de dados
-~ docker-compose run --rm artisan migrate -->
-
 ### Instalar os pacotes npm para rodar o frontend(Caso ainda não tenha sido instalados)
-~ npm i
+```
+npm i
+```
 
 ### Iniciar os servidores de desenvolvimento
-~ npm run dev
-
+```
+npm run dev
+```
 ### Para rodar os testes de integração
-~ php artisan test
-
+```
+php artisan test
+```
 ### Para monitorar os logs dos serviços docker, utilize os comandos abaixo
 
 # Logs do PHP-FPM
-~ docker logs -f planifica-app
-
+```
+docker logs -f planifica-app
+```
 # Logs do Nginx
-~ docker logs -f nginx-server
-
+```
+docker logs -f nginx-server
+```
 # Logs do Vite
-~ docker logs -f planifica-vite
-
+```
+docker logs -f planifica-vite
+```
 ### Para ambiente de produção, rodar o build:
-~ docker compose run --rm npm run build  # gera o diretório public/build/...
-
+```
+docker compose run --rm npm run build  # gera o diretório public/build/...
+```
 ----------------
 
 ### Explicação de como a integração do Laravel + Vue através do vite funciona
