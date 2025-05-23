@@ -34,6 +34,37 @@ Foi montado um modelo BASE UML para como ficaria as Classes de Modelo e Entidade
   <img src="./DOCS/UML/uml_model_light.png" width="800px"/>
 </div>
 
+## API
+
+### Versionamento da API
+
+app/
+└── Http/
+    └── Controllers/
+        └── Api/
+            ├── V1/
+            │   ├── UserController.php
+            │   └── ProductController.php
+            └── V2/
+                ├── UserController.php (com novos campos)
+                └── ProductController.php
+
+- Foi realizado um versionamento da API, todos os Controllers estão "isolados" para utilização da V1, V2, .... e assim por diante
+- Todas requisições seguirão um formato de ```http://BASE_URL/api/VERSAO/endpoint``` (Exemplo: ```http://BASE_URL/api/V1/events```).
+
+-Vantagens: Compatibilidade retroativa (evita quebra em clientes existentes), Evolução controlada (novos recursos sem afetar versões antigas) e Depreciação gradual (transição suave para novas versões)
+
+### Documentação completa no Insomnia
+- Toda a API construída está documentada com o Insominia(no futuro pode ser montado com um Swagger, por exemplo).
+- Pegue o arquivo mais recente que se encontra em DOCS/Insomnia e faça a importação
+
+<div align="center">
+  <img src="./DOCS/Insominia/insomnia_docs_demo.png"/>
+</div>
+
+### Autenticação da API
+- É realizada utilizando o Laravel Sanctum, utilizando Personal Token.
+- Siga o passo a passo descrito Arquivo "DOCS/Auth.md".
 
 ## Rodar o projeto
 
