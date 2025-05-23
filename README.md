@@ -84,7 +84,6 @@ DB_PASSWORD='your_pass$@123_testing'
 
 ```
 
-
 #### IMPORTANTE: Caso já tenha subido o container e depois modificado as variáveis de ambiente que afetam outros containers, como dados do db, por exemplo será necessário recriar os volumes persistentes, com isso ele recriará o banco de dados com as variáveis corretas
 
 ```
