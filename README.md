@@ -88,7 +88,7 @@ cp .env.example .env
 ```
 APP_URL=http://localhost:8000
 
-#Variaveis para uso no frontend com o Vite | Importante: Necessário o prefixo VITE_ para que o Vite reconheça
+#Variáveis para uso no frontend com o Vite | Importante: Necessário o prefixo VITE_ para que o Vite reconheça
 VITE_DEV_SERVER_URL=http://localhost:5173
 VITE_BACK_END_BASE_URL=http://localhost:8000/api/v1
 
