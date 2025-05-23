@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Para Utilização do Vuejs
+Route::get('/{any}', function () {
+    return view('welcome'); // Viwe principal que carrega o vuejs
+})->where('any', '.*');
