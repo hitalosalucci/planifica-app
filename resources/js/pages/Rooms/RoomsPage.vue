@@ -1,6 +1,6 @@
 <template>
 
-  <StandardTable :rows="eventsList" :columns="columns" row-key="id" :loading="isLoadingData">
+  <StandardTable :rows="dataList" :columns="columns" row-key="id" :loading="isLoadingData">
     <template #table-top-right>
       <StandardButton label="Nova Sala" buttonClass="brand-button-secondary" leftIcon="add" @click="openCreateDialog" />
     </template>
@@ -77,7 +77,7 @@ defineOptions({
 const { notifyError, notifySuccess } = useNotify();
 const isLoadingSave = ref(false);
 const isLoadingData = ref(false);
-const eventsList = ref([]);
+const dataList = ref([]);
 const dialogModel = ref(false);
 const isEdit = ref(false);
 const form = ref(null)
@@ -118,7 +118,7 @@ const getData = async () => {
   );
 
   if(response.data){
-    eventsList.value = response.data;
+    dataList.value = response.data;
   }
   isLoadingData.value = false;
 }
