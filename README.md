@@ -13,7 +13,7 @@ O nome "Planifica" vem do verbo "planificar", ou seja, organizar ou desenvolver 
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Logo.min.svg/2560px-Logo.min.svg.png" width="100px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/MariaDB_colour_logo.svg/2560px-MariaDB_colour_logo.svg.png" width="100px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://pbs.twimg.com/media/EtZYf1FWYAMmtHj.jpg" width="80px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="https://images.icon-icons.com/2699/PNG/512/vuejs_logo_icon_169247.png" width="80px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://images.icon-icons.com/2699/PNG/512/vuejs_logo_icon_169247.png" width="75px" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src="https://miro.medium.com/v2/resize:fit:1400/1*kbg1MaAgXlMyJjPB39oaag.png" width="105px" />
 </div>
 
