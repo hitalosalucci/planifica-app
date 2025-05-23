@@ -149,3 +149,5 @@ Contém:
 -Implmentação do i18n para preparar o sistema para multi linguagens- Escolhido pela não implementação inicial por conta do nível de "complexidade" adicionada no frontend sem necessidade inicial, mas facilmente podemos adicionar no futuro
 
 -Implementação de testes mais completos e ter uma cobertura mair, implementar também testes e2e(Com Cypress ou outra ferramenta) e testes de integração
+
+-Utlização de Linter no código para padronização de código e melhoria da legibilidade
