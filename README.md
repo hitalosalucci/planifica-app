@@ -101,6 +101,7 @@ docker-compose up -d
 ### Rode os comandos abaixo focados no container "app" (Essa configuração só será necessária uma vez, ao rodar o projeto pela primeira vez)
 
 ```
+# Caso queira rodar de dentro do composer - Caso contrário, ignore o comando
 docker-compose exec app sh
 
 docker-compose exec app php artisan key:generate #Caso não tenha gerado a key anteriormente
