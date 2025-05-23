@@ -29,7 +29,7 @@ class UpdateCoffeeRoomDTO extends BaseDTO
             'name' => 'sometimes|string|max:255',
             'capacity' => 'sometimes|integer|min:1',
             'description' => 'sometimes|string',
-            'status' => 'sometimes|in:active,inactive'
+            'status' => 'sometimes|in:available, unavailable, maintenance, inactive'
         ];
     }
 
