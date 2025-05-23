@@ -2,8 +2,6 @@ import axios from 'axios'
 import { useAuthStore } from '../stores/auth'
 import useNotify from '../composable/useNotify';
 
-const { notifyError } = useNotify();
-
 const api = axios.create({
   baseURL: import.meta.env.VITE_BACK_END_BASE_URL,
   headers: {
@@ -21,9 +19,6 @@ api.interceptors.request.use(
     return config
   },
   (error) => {
-    const statusError = error?.response?.status ?? error?.request?.status ?? 500;
-
-    notifyError(`Erro ${statusError} - ${message}`)
     return Promise.reject(error)
   }
 )
