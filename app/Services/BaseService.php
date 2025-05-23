@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @template TModel of Model
- * @template TDTO of BaseDTO
+ * @template TRepository of BaseRepository<TModel>
  */
 abstract class BaseService
 {
