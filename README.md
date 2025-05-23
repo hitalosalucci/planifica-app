@@ -1,4 +1,4 @@
-#Planifica App - Gestão organizada de eventos e salas
+# Planifica App - Gestão organizada de eventos e salas
 
 O nome "Planifica" vem do verbo "planificar", ou seja, organizar ou desenvolver um plano, criar um esquema para algo
 
@@ -89,15 +89,15 @@ php artisan test
 ```
 ### Para monitorar os logs dos serviços docker, utilize os comandos abaixo
 
-# Logs do PHP-FPM
+#### Logs do PHP-FPM
 ```
 docker logs -f planifica-app
 ```
-# Logs do Nginx
+#### Logs do Nginx
 ```
 docker logs -f nginx-server
 ```
-# Logs do Vite
+#### Logs do Vite
 ```
 docker logs -f planifica-vite
 ```
@@ -119,7 +119,7 @@ Contém:
 -Assets compilados pelo Vite
 
 
-# Porta 5173 (Vite Dev Server - HMR)
+#### Porta 5173 (Vite Dev Server - HMR)
 O que roda: Frontend (Vue + Quasar) com Hot Module Replacement
 
 Como acessar: http://localhost:5173
@@ -129,7 +129,7 @@ Contém:
 -Compilação em tempo real dos arquivos Vue/JS
 -Injeção automática de mudanças no navegador (HMR)
 
-# Modo Produção (npm run build):
+#### Modo Produção (npm run build):
 
 -Os assets são compilados para /public/build
 -Laravel serve tudo na porta 8000
