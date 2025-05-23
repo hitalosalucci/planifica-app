@@ -61,7 +61,7 @@ app/
 - Pegue o arquivo mais recente que se encontra em DOCS/Insomnia e faça a importação
 
 <div align="center">
-  <img src="./DOCS/Insominia/insomnia_docs_demo.png"/>
+  <img src="./DOCS/Insomnia/insomnia_docs_demo.png"/>
 </div>
 
 ### Autenticação da API
