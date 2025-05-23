@@ -42,7 +42,7 @@
           clickable
           v-ripple
           :active="
-            link.name && link.name.includes($route.name)
+            link.name && $route.name == link.name
           "
           active-class="brand-active-menu"
           class="q-py-md relative-position "
