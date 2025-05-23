@@ -1,6 +1,6 @@
 <template>
 
-  <StandardTable :rows="eventsList" :columns="columns" row-key="id" :loading="isLoadingData">
+  <StandardTable :rows="dataList" :columns="columns" row-key="id" :loading="isLoadingData">
     <template #table-top-right>
       <StandardButton label="Novo Cadastro" buttonClass="brand-button-secondary" leftIcon="add" @click="openCreateDialog" />
     </template>
@@ -22,6 +22,9 @@
   
         <StandardButton flat buttonClass="brand-button-flat text-info" :loading="isLoadingSave" color="info"
           leftIcon="edit" size="12px" tooltip="Editar Pessoa" @click="openUpdateDialog(row)" />
+
+        <StandardButton flat buttonClass="brand-button-flat text-primary" :loading="isLoadingSave" color="primary"
+          leftIcon="event" size="12px" tooltip="Pessoas no evento" @click="openEventPeopleDialog(row)" />
       </div>
 
     </template>
@@ -123,6 +126,55 @@
     </q-card>
   </q-dialog>
 
+  <q-dialog v-model="dialogEventPeopleModel" persistent side="right" overlay bordered :width="450">
+
+    <q-card style="width: 60vw; max-width: 95vw" class="brand-border-radius-16">
+      <q-toolbar>
+        <q-icon name="group" size="24px" />
+        <q-toolbar-title>Eventos de {{personDetails.name}} </q-toolbar-title>
+        <q-btn flat round dense icon="close" v-close-popup :loading="loading" :disable="loading" />
+      </q-toolbar>
+
+      <q-card-section>
+        <div class="text-caption q-mb-lg flex items-center">
+          <q-icon name="info" class="q-mr-xs" />
+          Aqui você acompanhará as pessoas que estão no evento
+        </div>
+
+        <StandardTable :rows="eventsPeopleList" :columns="columnsEventPeople" row-key="id" :loading="isLoadingEventsData">
+
+          <template #column-entry_code="{row}">
+            <span v-if="row.pivot?.entry_code">
+              {{ row.pivot?.entry_code }} 
+            </span>
+            <span v-else class="text-negative">
+              Não informado
+            </span>
+          </template>
+
+          <template #column-date="{value}">
+            <span v-if="value">
+              {{ date.formatDate(value, 'DD/MM/YYYY') }}
+            </span>
+            <span v-else class="text-negative">
+              Não informado
+            </span>
+          </template>
+
+          <template #column-actions="{row}">
+
+            <div class="flex items-center justify-center">
+              <StandardButton flat buttonClass="brand-button-flat text-negative" :loading="isLoadingSave" popupProxy color="negative"
+                leftIcon="cancel" size="12px" tooltip="Remover evento" @confirm="detachPersonEvent(row.id, personDetails.id)" />
+            </div>
+      
+          </template>
+        </StandardTable>
+
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+
 </template>
 
 <script setup>
@@ -142,11 +194,14 @@ defineOptions({
 const { notifyError, notifySuccess } = useNotify();
 const isLoadingSave = ref(false);
 const isLoadingData = ref(false);
-const eventsList = ref([]);
+const isLoadingEventsData = ref(false);
+const dataList = ref([]);
+const eventsPeopleList = ref([]);
 const dialogModel = ref(false);
+const dialogEventPeopleModel = ref(false);
 const isEdit = ref(false);
 const form = ref(null)
-
+const personDetails = ref();
 
 const initialForm = {
   name: null,
@@ -175,6 +230,31 @@ const columns = [
   { name: 'email', field: 'email', label: 'Email', sortable: true, align: 'left' },
 ]
 
+const columnsEventPeople = [
+  { name: 'description', field: 'description', label: 'Evento', sortable: true, align: 'left' },
+  { name: 'date', field: 'date', label: 'Data', sortable: true, align: 'left' },
+]
+
+const openEventPeopleDialog = (personRow) => {
+  dialogEventPeopleModel.value = true;
+  personDetails.value = personRow;
+
+  getEventsPerson(personRow.id);
+}
+
+const getEventsPerson = async (personId) => {
+  isLoadingEventsData.value = true;
+  const response = await api.get(
+    `/people/${personId}/events`
+  );
+
+  if(response.data){
+    eventsPeopleList.value = response.data;
+  }
+
+  isLoadingEventsData.value = false;
+}
+
 const openCreateDialog = () => {
   isEdit.value = false;
   formModel.value = initialForm;
@@ -197,7 +277,7 @@ const getData = async () => {
   );
 
   if(response.data){
-    eventsList.value = response.data;
+    dataList.value = response.data;
   }
   isLoadingData.value = false;
 }
@@ -243,6 +323,19 @@ const deleteData = async (id) => {
   }
 
   isLoadingSave.value = false
+}
+
+const detachPersonEvent = async (eventId, personId) => {
+  isLoadingEventsData.value = true;
+  const response = await api.delete(
+    `/events/${eventId}/people/${personId}`
+  );
+
+  if(response.data){
+    getEventsPerson(personId);
+  }
+
+  isLoadingEventsData.value = false;
 }
 
 </script>
