@@ -3,11 +3,12 @@
 namespace App\Models\EventPersonStage;
 
 use App\Enums\StatusEnum;
+use App\Models\BaseModelPivot;
 use App\Models\EventPerson\EventPersonModel;
 use App\Models\CoffeeRoom\CoffeeRoomModel;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class EventPersonStageModel extends Pivot
+class EventPersonStageModel extends BaseModelPivot
 {
     protected $table = 'event_people_stages';
 

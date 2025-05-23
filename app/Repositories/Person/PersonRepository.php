@@ -16,4 +16,23 @@ class PersonRepository extends BaseRepository
     {
       return $this->model->where('email', $email)->first();
     }
+
+    /**
+     * Retorna lista das eventos da pessoa
+     *
+     * @param int $personId
+     * @return array
+     */
+    public function getEventsByPeople(int $personId): array
+    {
+        $person = $this->model->with(['events' => function($query) {
+            $query->wherePivotNull('deleted_at'); // filtra apenas pivots não deletados
+        }])->find($personId);
+
+        if (!$person) {
+            throw new \Exception("Pessoa não encontrada");
+        }
+
+        return $person->events->toArray();
+    }
 }

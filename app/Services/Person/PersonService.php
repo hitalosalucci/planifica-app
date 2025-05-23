@@ -16,4 +16,17 @@ class PersonService extends BaseService
     {
         parent::__construct($repository);
     }
+
+    /* Retorna a lista de todas os eventos do pessoa
+    *
+    * @param int $person
+    * @return \Illuminate\Http\JsonResponse
+    */
+    public function getEventsByPeople(int $personId): array
+    {
+        /** @var PersonRepository $repository */
+        $repository = $this->repository;
+
+        return $repository->getEventsByPeople($personId);
+    }
 }

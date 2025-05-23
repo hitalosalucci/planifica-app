@@ -5,6 +5,9 @@ namespace App\Models\Event;
 use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\BaseModel;
+use App\Models\EventPerson\EventPersonModel;
+use App\Models\Person\PersonModel;
+use App\Models\Room\RoomModel;
 
 class EventModel extends BaseModel
 {
@@ -27,17 +30,11 @@ class EventModel extends BaseModel
         'quantity_stages' => 2 //Valor default de estágios, caso não informado
     ];
 
-//     public function people()
-//     {
-//         return $this->belongsToMany(Person::class, 'event_person')
-//           ->withPivot('entry_code', 'status')
-//           ->withTimestamps();
-// }
-
-//     public function rooms()
-//     {
-//         return $this->belongsToMany(Room::class, 'event_person_stage', 'event_id', 'coffee_room_id')
-//           ->withPivot('stage', 'status')
-//           ->withTimestamps();
-//     }
+    public function people()
+    {
+        return $this->belongsToMany(PersonModel::class, 'events_people', 'event_id', 'person_id')
+            ->using(EventPersonModel::class)
+            ->withPivot('entry_code', 'status')
+            ->withTimestamps();
+    }
 }

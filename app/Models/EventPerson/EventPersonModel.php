@@ -3,9 +3,10 @@
 namespace App\Models\EventPerson;
 
 use App\Enums\StatusEnum;
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use App\Models\BaseModelPivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EventPersonModel extends Pivot
+class EventPersonModel extends BaseModelPivot
 {
     protected $table = 'events_people';
 
