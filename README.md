@@ -17,7 +17,7 @@ O nome "Planifica" vem do verbo "planificar", ou seja, organizar ou desenvolver 
   <img src="https://miro.medium.com/v2/resize:fit:1400/1*kbg1MaAgXlMyJjPB39oaag.png" width="100px" />
 </div>
 
-### Motivação
+#### Escolha das Stacks
 Desenvolvido com as versões mais atuais das stacks listadas e com boas práticas de programação, aí vai uma explicação da motivação de cada escolha:
 - Laravel: Mais conhecido framework PHP, trás um vasto ferramental para desenvolvimento embutido
 - Vite: Padrão do Laravel nas versões mais atuais e também foi utilizado para rodarmos o VueJs com Laravel de forma nativa
