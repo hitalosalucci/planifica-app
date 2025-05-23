@@ -192,7 +192,8 @@ docker logs -f planifica-vite
 ```
 docker compose run --rm npm run build  # gera o diretório public/build/...
 ```
-----------------
+
+--------------------
 
 ### Explicação de como a integração do Laravel + Vue através do vite funciona
 #### Porta 8000 (Laravel + Nginx)
